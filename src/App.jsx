@@ -145,8 +145,21 @@ export default function App() {
 	const root = useRef(null);
 	const [hover, setHover] = useState(null);
 	const [open, setOpen] = useState(null);
+	const [menu, setMenu] = useState(false);
+	const menuBtn = useRef(null);
 	const grid = useRef(null);
 	useMotion(root);
+
+	useEffect(() => {
+		if (!menu) return;
+		const esc = (e) => {
+			if (e.key !== "Escape") return;
+			setMenu(false);
+			menuBtn.current.focus();
+		};
+		addEventListener("keydown", esc);
+		return () => removeEventListener("keydown", esc);
+	}, [menu]);
 
 	const setSide = (w) =>
 		grid.current.style.setProperty(
@@ -181,7 +194,23 @@ export default function App() {
 				<a className="wordmark" href="#top">
 					Wendyanto
 				</a>
-				<nav aria-label="Main" data-nav>
+				<button
+					type="button"
+					className="menu-btn"
+					ref={menuBtn}
+					aria-expanded={menu}
+					aria-controls="main-nav"
+					onClick={() => setMenu(!menu)}
+				>
+					{menu ? "Close" : "Menu"}
+				</button>
+				<nav
+					id="main-nav"
+					className={menu ? "is-open" : ""}
+					aria-label="Main"
+					data-nav
+					onClick={(e) => e.target.closest("a") && setMenu(false)}
+				>
 					<a href="#about">About</a>
 					<a href="#experience">Experience</a>
 					<a href="#projects">Projects</a>
