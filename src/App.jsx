@@ -5,6 +5,28 @@ const EMAIL = "wendyyyanto@gmail.com";
 const CV =
 	"https://drive.google.com/file/d/1TrjcLEtVsBS6LPaCPVtvsXKRsvTJ8PQF/view?usp=sharing";
 
+const ARTS = [
+	["/img/wendy-art.jpg", 640, 857],
+	["/img/wendy-art-2.jpg", 800, 800],
+	["/img/wendy-art-3.jpg", 800, 1072],
+	["/img/wendy-art-4.jpg", 800, 800]
+];
+
+function Arts() {
+	return ARTS.map(([src, width, height]) => (
+		<img
+			key={src}
+			className="art"
+			src={src}
+			width={width}
+			height={height}
+			alt=""
+			aria-hidden="true"
+			decoding="async"
+		/>
+	));
+}
+
 const timeline = [
 	{
 		kind: "Work",
@@ -242,15 +264,7 @@ export default function App() {
 									fetchPriority="high"
 									draggable="false"
 								/>
-								<img
-									className="art"
-									src="/img/wendy-art.jpg"
-									width="640"
-									height="857"
-									alt=""
-									aria-hidden="true"
-									decoding="async"
-								/>
+								<Arts />
 							</figure>
 						</div>
 						<div
@@ -324,15 +338,7 @@ export default function App() {
 								decoding="async"
 								draggable="false"
 							/>
-							<img
-								className="art"
-								src="/img/wendy-art.jpg"
-								width="640"
-								height="857"
-								alt=""
-								aria-hidden="true"
-								decoding="async"
-							/>
+							<Arts />
 							<figcaption>
 								Wendyanto, Tangerang. Drag the photo around.
 							</figcaption>
@@ -469,6 +475,7 @@ export default function App() {
 			</main>
 
 			<footer className="contact" id="contact" data-section>
+<div className="contact-bg" data-wipe aria-hidden="true" />
 				<div className="container">
 					<p className="statement" data-reveal>
 						Have interesting idea to build?

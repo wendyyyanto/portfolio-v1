@@ -98,8 +98,12 @@ a, .btn { transition: color var(--dur-short) var(--ease-out), background-color v
 .card { position: relative; }
 .card .real, .card .art { transition: opacity 500ms var(--ease-out); }
 .card .art { position: absolute; top: 0; left: 0; width: 100%; opacity: 0; }
+.card { transition: filter 400ms var(--ease-out); }
+.card img { transition: border-color 400ms var(--ease-out); }
+.card.is-lifted { filter: drop-shadow(0 22px 26px rgb(0 0 0 / 0.55)); }
+.card.is-lifted img { border-color: var(--accent); }
 .card.is-art .real { opacity: 0; }
-.card.is-art .art { opacity: 1; }
+.card.is-art .art.on { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .card .real, .card .art { transition: none; } }
 .card figcaption { margin-top: var(--space-sm); font-size: var(--text-sm); color: var(--muted); }
 
@@ -117,6 +121,7 @@ a, .btn { transition: color var(--dur-short) var(--ease-out), background-color v
 .plain { display: grid; gap: var(--space-sm); color: var(--ink-2); max-width: 62ch; }
 .plain li { position: relative; padding-left: var(--space-lg); }
 .plain li::before { content: ""; position: absolute; left: 0; top: 0.8em; width: 10px; height: var(--line); background: var(--accent); }
+
 
 .plist { border-top: var(--line) solid var(--ink); }
 .prow { border-bottom: var(--line) solid var(--ink); }
@@ -156,7 +161,7 @@ a, .btn { transition: color var(--dur-short) var(--ease-out), background-color v
   .stack > li:hover h3 { color: var(--accent); }
 }
 
-.contact { margin-top: var(--section-gap); padding-block: var(--space-3xl); background: var(--accent); color: var(--accent-ink); border-top: var(--line) solid var(--ink); }
+.contact { position: relative; isolation: isolate; margin-top: var(--section-gap); padding-block: var(--space-3xl); color: var(--accent-ink); border-top: var(--line) solid var(--ink); }
 .statement { font-family: var(--font-display); font-weight: 800; font-size: var(--text-display-s); line-height: 1; letter-spacing: -0.03em; color: var(--accent-ink); max-width: 20ch; text-wrap: balance; font-stretch: 80%; text-transform: uppercase; }
 .email { display: inline-block; margin-top: var(--space-xl); font-family: var(--font-display); font-weight: 800; font-size: clamp(1.5rem, 4.4vw, 4rem); letter-spacing: -0.03em; color: var(--accent-ink); text-decoration-color: var(--accent-ink); text-decoration-thickness: var(--line); overflow-wrap: anywhere; }
 .links { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-xl); }
@@ -207,3 +212,5 @@ a, .btn { transition: color var(--dur-short) var(--ease-out), background-color v
   .pyear { margin-top: var(--space-xs); }
   .email { padding-block: var(--space-xs); font-size: clamp(1.125rem, 6.4vw, 1.5rem); }
 }
+
+.contact-bg { position: absolute; inset: 0; z-index: -1; background: var(--accent); }

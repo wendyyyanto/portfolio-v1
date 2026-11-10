@@ -99,6 +99,14 @@ function timelineFill(root) {
   light(0);
 }
 
+function contactWipe(root) {
+  const bg = root.querySelector("[data-wipe]");
+  gsap.fromTo(bg, { clipPath: "inset(0 0 100% 0)" }, {
+    clipPath: "inset(0 0 0% 0)", ease: "none",
+    scrollTrigger: { trigger: bg.parentElement, start: "top 95%", end: "clamp(top 35%)", scrub: true },
+  });
+}
+
 function projectCard(root) {
   const list = root.querySelector("[data-plist]");
   const card = root.querySelector("[data-pcard]");
@@ -145,9 +153,19 @@ export function useMotion(scope) {
       });
 
       timelineFill(root);
+      contactWipe(root);
 
             if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
         root.querySelectorAll("[data-drag]").forEach((card) => {
+          const arts = [...card.querySelectorAll(".art")];
+          const tilt = gsap.quickTo(card, "rotation", { duration: 0.4, ease: "power3" });
+          const lean = () => tilt(gsap.utils.clamp(-18, 18, InertiaPlugin.getVelocity(card, "x") / 60));
+          let at = 0, travelled = 0;
+          const show = (i) => {
+            at = (i + arts.length) % arts.length;
+            arts.forEach((a, n) => a.classList.toggle("on", n === at));
+          };
+          show(0);
           const d = Draggable.create(card, {
             type: "x,y",
             inertia: true,
@@ -156,8 +174,21 @@ export function useMotion(scope) {
             maxDuration: 0.5,
             bounds: card.closest("[data-bounds]"),
             edgeResistance: 0.85,
-            onDragStart() { this.target.classList.add("is-art"); },
-            onRelease() { this.target.classList.remove("is-art"); },
+            onDragStart() {
+              travelled = 0;
+              this.target.classList.add("is-art", "is-lifted");
+              gsap.fromTo(card, { scale: gsap.getProperty(card, "scale") * 0.88 }, { scale: 1.07, duration: 0.7, ease: "elastic.out(1, 0.45)", overwrite: "auto" });
+            },
+            onDrag() {
+              travelled += Math.hypot(this.deltaX, this.deltaY);
+              if (travelled >= 110) { travelled = 0; show(at + 1); }
+              lean();
+            },
+            onThrowUpdate: lean,
+            onRelease() {
+              this.target.classList.remove("is-art");
+              show(at + 1);
+            },
           });
           undo.push(() => d.forEach((i) => i.kill()));
         });
@@ -169,7 +200,11 @@ export function useMotion(scope) {
 
     mm.add("(hover: hover) and (pointer: fine)", () => projectCard(root));
 
+    const refresh = () => ScrollTrigger.refresh();
+    document.fonts?.ready.then(refresh);
+    addEventListener("load", refresh);
+
     html.dataset.motionReady = "";
-    return () => { mm.revert(); ctx.revert(); };
+    return () => { removeEventListener("load", refresh); mm.revert(); ctx.revert(); };
   }, [scope]);
 }
