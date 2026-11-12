@@ -63,7 +63,7 @@ a, .btn { transition: color var(--dur-short) var(--ease-out), background-color v
 .cell { background: var(--bg); padding: var(--space-lg) clamp(20px, 2.2vw, 32px); min-width: 0; }
 .c-h1 { position: relative; grid-column: 1; grid-row: 1 / 4; display: grid; padding: 0; }
 .c-h1 h1 { align-self: end; padding: var(--space-3xl) var(--gutter) var(--space-2xl); }
-.card.hero-card { position: absolute; z-index: 2; top: var(--space-lg); right: var(--space-xl); width: calc(clamp(160px, 16vw, 280px) + 100px); rotate: -4deg; }
+.card.hero-card { position: absolute; z-index: 2; top: var(--space-lg); right: var(--space-xl); width: clamp(180px, min(24vw, 34svh), 400px); rotate: -4deg; }
 .card.hero-card img { border: 0; background: transparent; }
 .c-lead, .c-role, .c-base { grid-column: 2; }
 .c-lead { grid-row: 1; }
@@ -181,9 +181,7 @@ a, .btn { transition: color var(--dur-short) var(--ease-out), background-color v
   .c-h1, .c-lead, .c-bottom { grid-column: 1 / -1; grid-row: auto; }
   .c-role, .c-base { grid-column: auto; grid-row: auto; }
   .c-h1 h1 { padding: var(--space-xl) var(--gutter); }
-  .card.hero-card { position: relative; order: -1; top: 0; right: auto; left: 0; width: 100%; rotate: 0deg; padding: var(--space-xl) var(--gutter) 0; background: var(--bg); }
-  .card.hero-card img { width: min(60vw, 240px); rotate: -4deg; }
-  .card.hero-card .art { top: var(--space-xl); left: var(--gutter); }
+  .card.hero-card { position: relative; order: -1; top: 0; right: auto; left: 0; justify-self: start; width: clamp(150px, min(42vw, 38svh), 280px); margin: var(--space-xl) var(--gutter) var(--space-lg); rotate: -4deg; }
   .resize { display: none; }
   .c-bottom { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .c-status { grid-column: 1 / -1; }

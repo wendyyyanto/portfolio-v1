@@ -155,7 +155,7 @@ export function useMotion(scope) {
       timelineFill(root);
       contactWipe(root);
 
-            if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      {
         root.querySelectorAll("[data-drag]").forEach((card) => {
           const arts = [...card.querySelectorAll(".art")];
           const tilt = gsap.quickTo(card, "rotation", { duration: 0.4, ease: "power3" });
